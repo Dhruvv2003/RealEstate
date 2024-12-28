@@ -7,6 +7,7 @@ export default function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({
         ...formData,
@@ -16,7 +17,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try{
-      dispatchEvent(signInStart());
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin', 
       {
         method: 'POST',
@@ -28,15 +29,14 @@ export default function SignIn() {
       const data = await res.json();
       console.log(data);
       if (data.success === false){
-        dispatchEvent(signInFailure(data.message));
+        dispatch(signInFailure(data.message));
         return;
       }
-      dispatchEvent(signInSuccess(data.message));
+      dispatch(signInSuccess(data.message));
       navigate('/');
     }
     catch(error){
-      dispatchEvent(signInFailure(error.message));
-      return;
+      dispatch(signInFailure(error.message));
     }
     
   };
