@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { isAction } from "@reduxjs/toolkit";
+
+const action = isAction();
 
 const initialState = {
     currentUser: null,
     error: null,
     loading: false,
-    
 };
 
 const userSlice = createSlice({
